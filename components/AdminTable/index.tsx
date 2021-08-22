@@ -1,10 +1,19 @@
 import React from 'react';
+import { JSONObject } from 'ts-json-object';
 import mockData from '../../data/MOCK_DATA.json';
+
+interface Product {
+  id: number;
+  title: string;
+  price: string;
+  url: string;
+}
 
 interface AdminTableProps {}
 
 const AdminTable: React.FC<AdminTableProps> = () => {
-  const data: number = JSON.parse(mockData);
+  const data: Product[] = mockData;
+  console.log(data[0].id);
   return (
     <table className='table'>
       <thead>
@@ -16,29 +25,17 @@ const AdminTable: React.FC<AdminTableProps> = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope='row'>1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>
-            <button>Delete</button>
-            <button>Edit</button>
-          </td>
-        </tr>
-        <tr>
-          <th scope='row'>2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>
-            <button style={{ marginRight: '10px' }}>Delete</button>
-            <button>Edit</button>
-          </td>
-        </tr>
-        <tr>
-          <th scope='row'>3</th>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        {data.map(product => (
+          <tr key={product.id}>
+            <th scope='row'>{product.id}</th>
+            <td>{product.title}</td>
+            <td>{product.price}</td>
+            <td>
+              <button>Delete</button>
+              <button>Edit</button>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
