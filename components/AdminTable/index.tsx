@@ -1,5 +1,4 @@
 import React from 'react';
-import { JSONObject } from 'ts-json-object';
 import mockData from '../../data/MOCK_DATA.json';
 
 interface Product {
@@ -11,9 +10,8 @@ interface Product {
 
 interface AdminTableProps {}
 
-const AdminTable: React.FC<AdminTableProps> = () => {
+export const AdminTable: React.FC<AdminTableProps> = () => {
   const data: Product[] = mockData;
-  console.log(data[0].id);
   return (
     <table className='table'>
       <thead>
@@ -40,5 +38,3 @@ const AdminTable: React.FC<AdminTableProps> = () => {
     </table>
   );
 };
-
-export default AdminTable;
