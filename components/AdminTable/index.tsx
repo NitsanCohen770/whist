@@ -1,17 +1,19 @@
-import React from 'react';
-import mockData from '../../data/MOCK_DATA.json';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Button } from '../';
+import { Products } from '../../shared/interface';
 
-interface Product {
-  id: number;
-  title: string;
-  price: string;
-  url: string;
-}
+export const AdminTable: React.FC<Products> = ({ products }) => {
+  const [productsData, setProductsData] = useState<Products>();
 
-interface AdminTableProps {}
+  useEffect(() => {
+    axios
+      .get('https://my.api.mockaroo.com/whist.json?key=8887ef10')
+      .then(({ data }) => {
+        setProductsData(data);
+      });
+  }, []);
 
-export const AdminTable: React.FC<AdminTableProps> = () => {
-  const data: Product[] = mockData;
   return (
     <table className='table'>
       <thead>
@@ -23,14 +25,14 @@ export const AdminTable: React.FC<AdminTableProps> = () => {
         </tr>
       </thead>
       <tbody>
-        {data.map(product => (
+        {products.map(product => (
           <tr key={product.id}>
             <th scope='row'>{product.id}</th>
             <td>{product.title}</td>
             <td>{product.price}</td>
             <td>
-              <button>Delete</button>
-              <button>Edit</button>
+              <Button type='danger' label='Delete' />
+              <Button type='primary' label='Edit' />
             </td>
           </tr>
         ))}

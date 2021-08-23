@@ -1,1 +1,5 @@
-export { AdminTable } from './AdminTable/index';
+export { AdminTable } from './AdminTable/';
+export { Button } from './Button/';
+export { Product } from './Product/';
+export { ProductList } from './ProductList';
+export { Modal } from './Modal';
