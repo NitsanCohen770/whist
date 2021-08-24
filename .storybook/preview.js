@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import '@popperjs/core';
+import 'bootstrap';
 import * as NextImage from 'next/image';
 
 const OriginalNextImage = NextImage.default;

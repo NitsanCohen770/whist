@@ -26,11 +26,11 @@ export const Product: React.FC<ProductProps> = ({
             alt={title}
           />
         </div>
-        <div className='card-body'>
+        <div className='card-body d-flex flex-column justify-content-between'>
           <h5 className='card-title'>{title}</h5>
           <p className='card-text'>{description}</p>
           <div className='card-text bold'>{price}</div>
-          <div className='text-center'>
+          <div className='d-flex justify-content-center'>
             <Button type='primary' label='Buy' />
           </div>
         </div>

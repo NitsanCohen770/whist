@@ -4,7 +4,7 @@ import { AdminTable } from '../components';
 import mockData from '../__mocks__/data/MOCK_DATA.json';
 
 export default {
-  title: 'Products/AdminTable',
+  title: 'Admin/AdminTable',
   component: AdminTable,
 } as ComponentMeta<typeof AdminTable>;
 
