@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
 
-const ca = [fs.readFileSync(__dirname + '/cert.pem')];
 const MONGODB_URI = process.env.MONGODB_URI;
 
 let cached = global.mongoose;
@@ -23,12 +22,17 @@ async function dbConnect() {
       bufferMaxEntries: 0,
       useFindAndModify: false,
       useCreateIndex: true,
-      sslCa: ca,
+      sslValidate: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then(mongoose => {
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(
+        'mongodb+srv://nitsancohen:ua3ddcs3@cluster0.fnu3q.mongodb.net/whist?retryWrites=true&w=majority?ssl=true',
+        opts
+      )
+      .then(mongoose => {
+        return mongoose;
+      });
   }
   cached.conn = await cached.promise;
   return cached.conn;

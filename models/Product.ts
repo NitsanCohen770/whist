@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import { Product as ProductInterface } from '../shared/interface';
 
 const schema = new Schema<ProductInterface>({
@@ -8,6 +8,7 @@ const schema = new Schema<ProductInterface>({
   URL: { type: String, required: true },
 });
 
-const ProductModel = model<ProductInterface>('Product', schema);
+const ProductModel =
+  models.Product || model<ProductInterface>('Product', schema);
 
 export default ProductModel;

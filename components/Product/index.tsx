@@ -15,7 +15,7 @@ export const Product: React.FC<ProductProps> = ({
   url,
 }) => {
   return (
-    <div className='col-sm d-flex'>
+    <div className='d-flex flex-row justify-content-center'>
       <div className='card' style={{ width: '15rem' }}>
         <div>
           <Image

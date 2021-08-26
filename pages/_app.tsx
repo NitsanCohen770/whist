@@ -1,7 +1,6 @@
 import { RecoilRoot } from 'recoil';
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
-import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -10,9 +9,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
       </Head>
-      <RecoilRoot>
-        <Component {...pageProps} />
-      </RecoilRoot> 
+
+      <Component {...pageProps} />
     </>
   );
 }
