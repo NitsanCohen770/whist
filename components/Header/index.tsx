@@ -1,19 +1,20 @@
-import { useState } from 'react';
 import React from 'react';
 import Link from 'next/link';
-import { Nav } from 'react-bootstrap';
-import { Button } from '../Button';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = () => {
-  const [selected, setSelected] = useState<boolean>(false);
   return (
     <>
-      <Nav style={{ marginBottom: '3rem' }} variant='tabs' defaultActiveKey='/'>
+      <Nav
+        style={{ marginBottom: '3rem' }}
+        className='ml-auto'
+        variant='tabs'
+        defaultActiveKey='/'>
         <Nav.Item>
           <Link href='/' passHref>
-            <Nav.Link onClick={() => console.log('h')}>Home</Nav.Link>
+            <Nav.Link>Home</Nav.Link>
           </Link>
         </Nav.Item>
         <Link href='/admin' passHref>
@@ -24,6 +25,18 @@ export const Header: React.FC<HeaderProps> = () => {
             <Nav.Link eventKey='link-2'>Stats</Nav.Link>
           </Link>
         </Nav.Item>
+
+        <NavDropdown
+          style={{ marginLeft: 'auto' }}
+          title='Link'
+          id='navbarScrollingDropdown'>
+          <NavDropdown.Item>Action</NavDropdown.Item>
+
+          <NavDropdown.Divider />
+          <NavDropdown.Item href='#action5'>
+            Something else here
+          </NavDropdown.Item>
+        </NavDropdown>
       </Nav>
     </>
   );

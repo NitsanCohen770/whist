@@ -1,16 +1,23 @@
 import * as React from 'react';
 import { Button } from '../';
-import { Products } from '../../shared/interface';
+import { Product, Products } from '../../shared/interface';
 
 interface AdminTableProps extends Products {
   setProducts: React.Dispatch<React.SetStateAction<Products>>;
+  toggleShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product>>;
 }
 
 export const AdminTable: React.FC<AdminTableProps> = ({
   products,
   setProducts,
+  toggleShowModal,
+  setSelectedProduct: setSelectedProduct,
 }) => {
-  const [show, toggleShow] = React.useState<boolean>(false);
+  const editProductHandler = (selectedProduct: Product) => {
+    setSelectedProduct(selectedProduct);
+    toggleShowModal(true);
+  };
 
   const deleteProductHandler = productId => {
     fetch('http://localhost:3000/api/products', {
@@ -34,7 +41,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
       </thead>
       <tbody>
         {products?.map(product => (
-          <tr key={product.id}>
+          <tr key={product._id}>
             <td>{product.title}</td>
             <td>{product.price}</td>
             <td className='d-flex flex-row justify-content-evenly'>
@@ -43,7 +50,11 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                 type='danger'
                 label='Delete'
               />
-              <Button type='primary' label='Edit' />
+              <Button
+                clickHandler={() => editProductHandler(product)}
+                type='primary'
+                label='Edit'
+              />
             </td>
           </tr>
         ))}

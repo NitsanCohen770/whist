@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../lib/dbConnect';
 import ProductModel from '../../models/Product';
@@ -12,7 +13,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { body: id, method } = req;
-  console.log(id);
+  console.log(req.body);
   await dbConnect();
   switch (method) {
     case 'GET':
@@ -30,15 +31,24 @@ export default async function handler(
 
     case 'PUT':
       try {
-        const product = await ProductModel.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-          rawResult: true,
-        });
+        const updatedProduct = JSON.parse(req.body);
+        const id = updatedProduct._id;
+        const mongoId = new ObjectId(id);
+        console.log('id', id);
+        const product = await ProductModel.findByIdAndUpdate(
+          mongoId,
+          updatedProduct,
+          {
+            new: true,
+            runValidators: true,
+            rawResult: true,
+          }
+        );
+        const updatedProducts = await ProductModel.find();
         if (!product) {
           return res.status(400).json({ success: false });
         }
-        res.status(200).json({ success: true, data: product });
+        res.status(200).json({ success: true, data: updatedProducts });
       } catch (error) {
         res.status(400).json({ success: false });
       }

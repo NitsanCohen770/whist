@@ -1,15 +1,17 @@
 import React from 'react';
-import { ObjectId } from 'mongodb';
 import { Product } from '..';
 import { Products } from '../../shared/interface';
 
-export const ProductList: React.FC<Products> = ({ products }) => {
+export const ProductList: React.FC<Products> = ({
+  products,
+  setCartProducts,
+}) => {
   return (
     <div className='container  content-row'>
       <div className='row row-cols-1 row-cols-md-3 g-4 '>
-        {products?.map(({ title, description, url, price, id }) => (
+        {products?.map(({ title, description, url, price, _id }) => (
           <Product
-            key={id}
+            key={_id}
             title={title}
             description={description}
             price={price}
