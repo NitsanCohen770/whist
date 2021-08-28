@@ -6,8 +6,8 @@ import { Header, AdminTable, EditProductModal } from '../components';
 
 const AdminPage: NextPage<Products> = () => {
   const [products, setProducts] = useState<Products>();
-  const [selectedProduct, setSelectedProduct] = React.useState<Product>();
-  const [showModal, toggleShowModal] = React.useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
+  const [showModal, toggleShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     fetch('http://localhost:3000/api/products')

@@ -28,12 +28,16 @@ export const EditProductModal: React.FC<ModalProps> = ({
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm<Product>({
-    defaultValues: { price: product?.price || 0, title: product?.title || '' },
+    defaultValues: {
+      price: product?.price,
+      title: product?.title,
+      description: product?.description,
+      url: product?.url,
+    },
   });
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset({});
     }
   }, [isSubmitSuccessful, reset]);
 
@@ -48,7 +52,6 @@ export const EditProductModal: React.FC<ModalProps> = ({
         setProducts(data);
         toggleShowModal(false);
         setSelectedProduct(null);
-        e.target.reset();
       });
   };
 
@@ -70,6 +73,7 @@ export const EditProductModal: React.FC<ModalProps> = ({
                   type='text'
                   className='form-control'
                   placeholder='Example: A Teddy bear'
+                  value={product?.title}
                 />
               </div>
               <div className='mb-3'>
@@ -88,7 +92,6 @@ export const EditProductModal: React.FC<ModalProps> = ({
                   type='url'
                   className='form-control'
                   placeholder='Example: https://images.unsplash.com/photo-1629392554711-1b9aa59f2dbe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1868&q=80'
-                  defaultValue={product?.url || ''}
                 />
               </div>
               <div className='mb-3'>
@@ -98,7 +101,6 @@ export const EditProductModal: React.FC<ModalProps> = ({
                   className='form-control'
                   placeholder='Example: This is a cute teddy bear doll. You will have to fun playing with it!'
                   maxLength={80}
-                  defaultValue={product?.description || ''}
                   rows={3}></textarea>
                 <input
                   {...register('_id')}
@@ -112,7 +114,10 @@ export const EditProductModal: React.FC<ModalProps> = ({
             <Button variant='secondary' onClick={handleClose}>
               Close
             </Button>
-            <Button variant='primary' type='submit' onClick={() => reset()}>
+            <Button
+              variant='primary'
+              type='submit'
+              onClick={() => reset({ defaultValues })}>
               Save Changes
             </Button>
           </Modal.Footer>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import Image from 'next/image';
 import { Button } from '../';
-import { Product as ProductIF } from '../../shared/interface';
+import { Order, OrderItem, Product as ProductIF } from '../../shared/interface';
+import { orderState } from '../../recoil/atmos/order';
 
 interface ProductProps extends ProductIF {
   image?: string | StaticImageData;
@@ -14,6 +16,12 @@ export const Product: React.FC<ProductProps> = ({
   image,
   url,
 }) => {
+  const [order, setOrder] = useRecoilState(orderState);
+
+  const addProductHandler = (product: OrderItem) => {
+    setOrder((prevOrder): OrderItem[] => [...prevOrder, product]);
+  };
+  console.log(order);
   return (
     <div className='d-flex flex-row justify-content-center'>
       <div className='card' style={{ width: '15rem' }}>
@@ -31,7 +39,19 @@ export const Product: React.FC<ProductProps> = ({
           <p className='card-text'>{description}</p>
           <div className='card-text bold'>{price}</div>
           <div className='d-flex justify-content-center'>
-            <Button type='primary' label='Buy' />
+            <Button
+              clickHandler={() =>
+                addProductHandler({
+                  title,
+                  url,
+                  description,
+                  price,
+                  quantity: 1,
+                })
+              }
+              type='primary'
+              label='Buy'
+            />
           </div>
         </div>
       </div>
