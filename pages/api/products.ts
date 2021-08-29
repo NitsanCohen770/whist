@@ -8,6 +8,12 @@ interface Data {
   data?: {} | {}[];
 }
 
+export const getAllProducts = async () => {
+  await dbConnect();
+  const products = await ProductModel.find();
+  return products;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>

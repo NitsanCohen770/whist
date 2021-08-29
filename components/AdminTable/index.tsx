@@ -43,7 +43,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
         {products?.map(product => (
           <tr key={product._id}>
             <td>{product.title}</td>
-            <td>{product.price}</td>
+            <td>$ {product.price}</td>
             <td className='d-flex flex-row justify-content-evenly'>
               <Button
                 clickHandler={() => deleteProductHandler(product._id)}

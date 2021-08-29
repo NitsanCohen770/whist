@@ -1,10 +1,17 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import Link from 'next/link';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { orderState } from '../../recoil/atmos/order';
+import { Button } from '../Button';
 
 interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = () => {
+  const [order, setOrder] = useRecoilState(orderState);
+  const totalOrderSum = order
+    .map(orderItem => orderItem.quantity * orderItem.price)
+    .reduce((a, b) => a + b, 0);
   return (
     <>
       <Nav
@@ -28,13 +35,18 @@ export const Header: React.FC<HeaderProps> = () => {
 
         <NavDropdown
           style={{ marginLeft: 'auto' }}
-          title='Link'
+          title={`Shopping cart  ${order.length}`}
           id='navbarScrollingDropdown'>
-          <NavDropdown.Item>Action</NavDropdown.Item>
-
+          {order.map(orderItem => (
+            <NavDropdown.Item key={orderItem._id}>
+              {orderItem.title}: {orderItem.quantity}
+            </NavDropdown.Item>
+          ))}
           <NavDropdown.Divider />
-          <NavDropdown.Item href='#action5'>
-            Something else here
+          Total: {totalOrderSum}
+          <NavDropdown.Divider />
+          <NavDropdown.Item className='d-flex flex-row justify-content-center'>
+            <Button label='Order Now' type='success' />
           </NavDropdown.Item>
         </NavDropdown>
       </Nav>

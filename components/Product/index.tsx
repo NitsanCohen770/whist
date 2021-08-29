@@ -19,9 +19,26 @@ export const Product: React.FC<ProductProps> = ({
   const [order, setOrder] = useRecoilState(orderState);
 
   const addProductHandler = (product: OrderItem) => {
-    setOrder((prevOrder): OrderItem[] => [...prevOrder, product]);
+    const existItem = order.find(item => item.title === product.title);
+
+    if (existItem) {
+      const existItemIndex = order.findIndex(
+        item => item.title === product.title
+      );
+
+      const updatedExistItem = {
+        ...existItem,
+        quantity: existItem.quantity + 1,
+      };
+      return setOrder((prevOrder): OrderItem[] => {
+        const updatedOrder = [...prevOrder];
+        updatedOrder[existItemIndex] = updatedExistItem;
+        return updatedOrder;
+      });
+    }
+    return setOrder((prevOrder): OrderItem[] => [...prevOrder, product]);
   };
-  console.log(order);
+
   return (
     <div className='d-flex flex-row justify-content-center'>
       <div className='card' style={{ width: '15rem' }}>

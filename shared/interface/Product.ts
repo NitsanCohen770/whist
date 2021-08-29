@@ -4,6 +4,6 @@ export interface Product {
   _id?: string;
   title: string;
   description?: string;
-  price: string | number;
+  price: number;
   url: string;
 }
