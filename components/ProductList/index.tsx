@@ -4,7 +4,6 @@ import { Products } from '../../shared/interface';
 
 export const ProductList: React.FC<Products> = ({
   products,
-  setCartProducts,
 }) => {
   return (
     <div className='container  content-row'>

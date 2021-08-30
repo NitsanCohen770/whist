@@ -31,10 +31,9 @@ export const EditProductModal: React.FC<ModalProps> = ({
   const {
     value: description,
     bind: bindDescription,
-    resetDescription,
+    reset: resetDescription,
   } = useInput(product?.description);
-  const { value: id, bind: bindId, reset: resetId } = useInput(product?._id);
-  console.log(productTitle);
+
   const onSubmit = (event, data) => {
     event.preventDefault();
     console.log(data);
@@ -45,6 +44,7 @@ export const EditProductModal: React.FC<ModalProps> = ({
     })
       .then(res => res.json())
       .then(({ data }) => {
+        resetTitle();
         setProducts(data);
         toggleShowModal(false);
         setSelectedProduct(null);
@@ -53,6 +53,7 @@ export const EditProductModal: React.FC<ModalProps> = ({
 
   const handleClose = () => {
     resetTitle();
+    setSelectedProduct(null);
     toggleShowModal(false);
   };
 
@@ -65,11 +66,11 @@ export const EditProductModal: React.FC<ModalProps> = ({
         <form
           onSubmit={event =>
             onSubmit(event, {
-              title: productTitle,
-              url,
-              description,
-              price,
-              _id: product._id,
+              title: productTitle || product.title,
+              url: url || product.url,
+              description: description || product.description,
+              price: price || product.price,
+              ...(product?._id && { _id: product._id }),
             })
           }>
           <Modal.Body>
@@ -113,8 +114,6 @@ export const EditProductModal: React.FC<ModalProps> = ({
                   {...bindDescription}
                   defaultValue={product?.description}
                   rows={3}></textarea>
-
-                <input type='hidden' value={product?._id} />
               </div>
             </div>
           </Modal.Body>

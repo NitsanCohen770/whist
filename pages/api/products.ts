@@ -19,7 +19,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { body: id, method } = req;
-  console.log(req.body);
+
   await dbConnect();
   switch (method) {
     case 'GET':
@@ -41,6 +41,7 @@ export default async function handler(
         const id = updatedProduct._id;
         const mongoId = new ObjectId(id);
         console.log('id', id);
+        console.log('prod', updatedProduct);
         const product = await ProductModel.findByIdAndUpdate(
           mongoId,
           updatedProduct,
@@ -48,6 +49,7 @@ export default async function handler(
             new: true,
             runValidators: true,
             rawResult: true,
+            upsert: true,
           }
         );
         const updatedProducts = await ProductModel.find();
