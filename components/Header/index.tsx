@@ -5,19 +5,31 @@ import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { orderState } from '../../recoil/atmos/order';
 import { Button } from '../Button';
 import { useRouter } from 'next/dist/client/router';
+import { OrderItem } from '../../shared/interface';
 
 interface HeaderProps {
-  showModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Header: React.FC<HeaderProps> = ({ showModal }) => {
   const currentRoute = useRouter().pathname;
   const [order, setOrder] = useRecoilState(orderState);
   const totalOrderSum = order
-    .map(orderItem => orderItem.quantity * orderItem.price)
+    .map(orderItem => orderItem.quantity * orderItem.product.price)
     .reduce((a, b) => a + b, 0);
 
-  const sendOrderHandler = () => {};
+  const sendOrderHandler = () => {
+    const orderWithDate = { order: [...order], date: new Date() };
+    console.log(orderWithDate);
+    const orderData = JSON.stringify(orderWithDate);
+    fetch('http://localhost:3000/api/sendOrder', {
+      method: 'POST',
+      body: orderData,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(res => res.json().then(res => console.log(res)));
+  };
 
   const headerButtonHandler = () => {
     if (currentRoute === '/')
@@ -27,12 +39,14 @@ export const Header: React.FC<HeaderProps> = ({ showModal }) => {
           title={`Shopping cart  ${order.length}`}
           id='navbarScrollingDropdown'>
           {order.map(orderItem => (
-            <NavDropdown.Item key={orderItem._id}>
-              {orderItem.title}: {orderItem.quantity}
+            <NavDropdown.Item key={orderItem.product._id}>
+              {orderItem.product.title}: X{orderItem.quantity}
             </NavDropdown.Item>
           ))}
           <NavDropdown.Divider />
-          Total: {totalOrderSum}
+          <div className='d-flex flex-row justify-content-center'>
+            Total: ${totalOrderSum}
+          </div>
           <NavDropdown.Divider />
           <NavDropdown.Item className='d-flex flex-row justify-content-center'>
             <Button

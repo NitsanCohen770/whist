@@ -10,6 +10,7 @@ interface ProductProps extends ProductIF {
 }
 
 export const Product: React.FC<ProductProps> = ({
+  _id,
   title,
   description,
   price,
@@ -19,11 +20,13 @@ export const Product: React.FC<ProductProps> = ({
   const [order, setOrder] = useRecoilState(orderState);
 
   const addProductHandler = (product: OrderItem) => {
-    const existItem = order.find(item => item.title === product.title);
+    const existItem = order.find(
+      item => item.product.title === product.product.title
+    );
 
     if (existItem) {
       const existItemIndex = order.findIndex(
-        item => item.title === product.title
+        item => item.product.title === product.product.title
       );
 
       const updatedExistItem = {
@@ -59,10 +62,7 @@ export const Product: React.FC<ProductProps> = ({
             <Button
               clickHandler={() =>
                 addProductHandler({
-                  title,
-                  url,
-                  description,
-                  price,
+                  product: { _id, title, url, description, price },
                   quantity: 1,
                 })
               }

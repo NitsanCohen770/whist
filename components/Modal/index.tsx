@@ -36,11 +36,10 @@ export const EditProductModal: React.FC<ModalProps> = ({
 
   const onSubmit = (event, data) => {
     event.preventDefault();
-    console.log(data);
-    const jsonDATA = JSON.stringify(data);
+    const product = JSON.stringify(data);
     fetch('http://localhost:3000/api/products', {
       method: 'PUT',
-      body: jsonDATA,
+      body: product,
     })
       .then(res => res.json())
       .then(({ data }) => {

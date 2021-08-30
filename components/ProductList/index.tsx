@@ -2,9 +2,7 @@ import React from 'react';
 import { Product } from '..';
 import { Products } from '../../shared/interface';
 
-export const ProductList: React.FC<Products> = ({
-  products,
-}) => {
+export const ProductList: React.FC<Products> = ({ products }) => {
   return (
     <div className='container  content-row'>
       <div className='row row-cols-1 row-cols-md-3 g-4 '>
@@ -15,6 +13,7 @@ export const ProductList: React.FC<Products> = ({
             description={description}
             price={price}
             url={url}
+            _id={_id}
           />
         ))}
       </div>

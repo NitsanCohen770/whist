@@ -16,8 +16,8 @@ const StatsPage: NextPage<Products> = ({ products }) => {
       <Header />
       <div className='container d-flex justify-content-around align-items-center align-middle '>
         <SalesStats title='Top 5 Products' />
-        <SalesStats title='Top 5 Products' />
-        <SalesStats title='Top 5 Products' />
+        <SalesStats title='Top 5 Unique Products' />
+        <SalesStats title='Last 5 Days Sales' />
       </div>
     </>
   );
