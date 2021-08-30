@@ -16,5 +16,5 @@ Default.args = {
   title: 'Fancy Watch',
   description:
     'This is one of the best watches in the world. It will go with you anywhere and guess what? Show you what time it is!',
-  price: '55$',
+  price: 55,
 };

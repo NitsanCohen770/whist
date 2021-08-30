@@ -9,6 +9,7 @@ const orderItemSchema = new Schema<OrderItem>({
 const schema = new Schema<OrderInterface>({
   order: [orderItemSchema],
   date: { type: Date, required: true },
+  totalOrderSum: { type: Number, required: true },
 });
 
 const OrderModel = models.Order || model<OrderInterface>('Order', schema);

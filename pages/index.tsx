@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import axios from 'axios';
 import { Header, ProductList } from '../components';
 import { Products } from '../shared/interface';
 import { useEffect, useState } from 'react';
@@ -13,6 +12,7 @@ const Home: NextPage<Products> = () => {
       .then(response => response.json())
       .then(({ data }) => setProducts(data));
   }, []);
+
   return (
     <div>
       <Head>
@@ -26,18 +26,4 @@ const Home: NextPage<Products> = () => {
   );
 };
 
-// export async function getStaticProps() {
-//   const response = await fetch('http://localhost:3000/api/products');
-//   const { data } = response.json();
-//   console.log(data);
-
-//   // if (!data) return { notFound: true };
-
-//   return {
-//     props: {
-//       products: data,
-//     },
-//     revalidate: 600,
-//   };
-// }
 export default Home;

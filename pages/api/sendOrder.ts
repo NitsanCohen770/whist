@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const {
-    body: { order, date },
+    body: { order, date, totalOrderSum },
     method,
   } = req;
 
@@ -21,7 +21,11 @@ export default async function handler(
     case 'POST':
       try {
         console.log(date);
-        const newOrder = await OrderModel.create({ order, date });
+        const newOrder = await OrderModel.create({
+          order,
+          date,
+          totalOrderSum,
+        });
 
         if (!newOrder) {
           return res.status(400).json({ success: false });

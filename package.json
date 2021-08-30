@@ -17,6 +17,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "5.1.0",
+    "date-fns": "^2.23.0",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.8",
     "next": "11.1.0",

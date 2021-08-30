@@ -19,7 +19,11 @@ export const Header: React.FC<HeaderProps> = ({ showModal }) => {
     .reduce((a, b) => a + b, 0);
 
   const sendOrderHandler = () => {
-    const orderWithDate = { order: [...order], date: new Date() };
+    const orderWithDate = {
+      order: [...order],
+      date: new Date(),
+      totalOrderSum,
+    };
     console.log(orderWithDate);
     const orderData = JSON.stringify(orderWithDate);
     fetch('http://localhost:3000/api/sendOrder', {
@@ -28,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ showModal }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(res => res.json().then(res => console.log(res)));
+    }).then(() => setOrder([]));
   };
 
   const headerButtonHandler = () => {

@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import type { NextPage } from 'next';
 import type { Products } from '../shared/interface';
 import Head from 'next/head';
 import { Header, SalesStats } from '../components';
 
-const StatsPage: NextPage<Products> = ({ products }) => {
+const StatsPage: NextPage<Products> = () => {
+  const [frequentProducts, setFrequentProducts] = useState<[]>([]);
+  const [uniqueProducts, setUniqueProducts] = useState<[]>([]);
+  const [fiveDaysSales, setFiveDaysSales] = useState<[]>([]);
+  useEffect(() => {
+    fetch('http://localhost:3000/api/getTopProducts')
+      .then(response => response.json())
+      .then(({ data: { frequentProducts, uniqueProducts, fiveDaysSales } }) => {
+        console.log(fiveDaysSales);
+        setFrequentProducts(frequentProducts);
+        setUniqueProducts(uniqueProducts);
+        setFiveDaysSales(fiveDaysSales);
+      });
+  }, []);
+
   return (
     <>
       <Head>
@@ -15,13 +28,15 @@ const StatsPage: NextPage<Products> = ({ products }) => {
       </Head>
       <Header />
       <div className='container d-flex justify-content-around align-items-center align-middle '>
-        <SalesStats title='Top 5 Products' />
-        <SalesStats title='Top 5 Unique Products' />
-        <SalesStats title='Last 5 Days Sales' />
+        <SalesStats productsOrSales={frequentProducts} title='Top 5 Products' />
+        <SalesStats
+          productsOrSales={uniqueProducts}
+          title='Top 5 Unique Products'
+        />
+        <SalesStats productsOrSales={fiveDaysSales} title='Last 5 Days Sales' />
       </div>
     </>
   );
 };
-// client side data fetching
 
 export default StatsPage;

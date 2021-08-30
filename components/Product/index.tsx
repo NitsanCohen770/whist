@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import Image from 'next/image';
 import { Button } from '../';
-import { Order, OrderItem, Product as ProductIF } from '../../shared/interface';
+import { OrderItem, Product as ProductIF } from '../../shared/interface';
 import { orderState } from '../../recoil/atmos/order';
 
 interface ProductProps extends ProductIF {
@@ -57,7 +57,7 @@ export const Product: React.FC<ProductProps> = ({
         <div className='card-body d-flex flex-column justify-content-between'>
           <h5 className='card-title'>{title}</h5>
           <p className='card-text'>{description}</p>
-          <div className='card-text bold'>{price}</div>
+          <div className='card-text bold'>$ {price}</div>
           <div className='d-flex justify-content-center'>
             <Button
               clickHandler={() =>
