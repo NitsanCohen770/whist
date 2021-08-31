@@ -1,11 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import Link from 'next/link';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Nav, NavDropdown } from 'react-bootstrap';
 import { orderState } from '../../recoil/atmos/order';
 import { Button } from '../Button';
 import { useRouter } from 'next/dist/client/router';
-import { OrderItem } from '../../shared/interface';
 
 interface HeaderProps {
   showModal?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,7 +23,6 @@ export const Header: React.FC<HeaderProps> = ({ showModal }) => {
       date: new Date(),
       totalOrderSum,
     };
-    console.log(orderWithDate);
     const orderData = JSON.stringify(orderWithDate);
     fetch('http://localhost:3000/api/sendOrder', {
       method: 'POST',
@@ -39,11 +37,14 @@ export const Header: React.FC<HeaderProps> = ({ showModal }) => {
     if (currentRoute === '/')
       return (
         <NavDropdown
+          data-cy='dropdown'
           style={{ marginLeft: 'auto' }}
           title={`Shopping cart  ${order.length}`}
           id='navbarScrollingDropdown'>
           {order.map(orderItem => (
-            <NavDropdown.Item key={orderItem.product._id}>
+            <NavDropdown.Item
+              data-cy='dropdown-item'
+              key={orderItem.product._id}>
               {orderItem.product.title}: X{orderItem.quantity}
             </NavDropdown.Item>
           ))}

@@ -3,9 +3,9 @@ import { useInput } from '../../hooks/useInput';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { Product, Products } from '../../shared/interface';
+import { callApi } from '../../helpers/apiCalls';
 
 interface ModalProps {
-  title: string;
   product?: Product;
   toggleShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setProducts: React.Dispatch<React.SetStateAction<Products>>;
@@ -14,44 +14,28 @@ interface ModalProps {
 }
 
 export const EditProductModal: React.FC<ModalProps> = ({
-  title,
   product,
   toggleShowModal,
   showModal,
   setProducts,
   setSelectedProduct,
 }) => {
-  const { value: productTitle, bind: bindTitle, reset: resetTitle } = useInput(
-    product?.title
-  );
-  const { value: price, bind: bindPrice, reset: resetPrice } = useInput(
-    product?.price
-  );
-  const { value: url, bind: bindUrl, reset: resetUrl } = useInput(product?.url);
-  const {
-    value: description,
-    bind: bindDescription,
-    reset: resetDescription,
-  } = useInput(product?.description);
+  const { value: productTitle, bind: bindTitle } = useInput('');
+  const { value: price, bind: bindPrice } = useInput('');
+  const { value: url, bind: bindUrl } = useInput(product?.url);
+  const { value: description, bind: bindDescription } = useInput('');
 
   const onSubmit = (event, data) => {
     event.preventDefault();
     const product = JSON.stringify(data);
-    fetch('http://localhost:3000/api/products', {
-      method: 'PUT',
-      body: product,
-    })
-      .then(res => res.json())
-      .then(({ data }) => {
-        resetTitle();
-        setProducts(data);
-        toggleShowModal(false);
-        setSelectedProduct(null);
-      });
+    callApi('products', 'PUT', product).then(({ data }) => {
+      setProducts(data);
+      toggleShowModal(false);
+      setSelectedProduct(null);
+    });
   };
 
   const handleClose = () => {
-    resetTitle();
     setSelectedProduct(null);
     toggleShowModal(false);
   };
@@ -60,7 +44,7 @@ export const EditProductModal: React.FC<ModalProps> = ({
     <>
       <Modal show={showModal} onHide={handleClose} id='form'>
         <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
+          <Modal.Title>{product ? 'Edit Product' : 'New Product'}</Modal.Title>
         </Modal.Header>
         <form
           onSubmit={event =>

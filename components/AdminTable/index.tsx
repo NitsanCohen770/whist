@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button } from '../';
+import { callApi } from '../../helpers/apiCalls';
 import { Product, Products } from '../../shared/interface';
 
 interface AdminTableProps extends Products {
@@ -12,7 +13,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
   products,
   setProducts,
   toggleShowModal,
-  setSelectedProduct: setSelectedProduct,
+  setSelectedProduct,
 }) => {
   const editProductHandler = (selectedProduct: Product) => {
     setSelectedProduct(selectedProduct);
@@ -20,12 +21,9 @@ export const AdminTable: React.FC<AdminTableProps> = ({
   };
 
   const deleteProductHandler = productId => {
-    fetch('http://localhost:3000/api/products', {
-      method: 'DELETE',
-      body: productId,
-    })
-      .then(response => response.json())
-      .then(({ data }) => setProducts(data));
+    callApi('products', 'DELETE', productId).then(({ data }) =>
+      setProducts(data)
+    );
   };
 
   return (

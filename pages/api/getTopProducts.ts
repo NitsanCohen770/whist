@@ -25,7 +25,6 @@ export default async function handler(
       try {
         const uniqueProducts = await getMostUniqueProducts();
         const frequentProducts = await getMostFrequentProducts();
-
         const fiveDaysSales = await Promise.allSettled([
           getTopSalesForDay(0, -1),
           getTopSalesForDay(-1, -2),
