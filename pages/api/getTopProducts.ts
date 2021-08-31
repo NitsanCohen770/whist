@@ -2,6 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import addDays from 'date-fns/addDays';
 import dbConnect from '../../lib/dbConnect';
 import OrderModel from '../../models/Order';
+import {
+  getTopSalesForDay,
+  getMostUniqueProducts,
+  getMostFrequentProducts,
+} from '../../helpers/queries';
 
 type Data = {
   data?: {};
@@ -18,109 +23,17 @@ export default async function handler(
   switch (method) {
     case 'GET':
       try {
-        const uniqueProducts = await OrderModel.aggregate([
-          { $unwind: '$order' },
-          { $sortByCount: '$order.product.title' },
-          { $limit: 5 },
-        ]);
-        const frequentProducts = await OrderModel.aggregate([
-          {
-            $unwind: {
-              path: '$order',
-            },
-          },
-          {
-            $group: {
-              _id: '$order.product.title',
-              total: { $sum: '$order.quantity' },
-            },
-          },
-          { $limit: 5 },
-        ]).sort({ total: -1 });
+        const uniqueProducts = await getMostUniqueProducts();
+        const frequentProducts = await getMostFrequentProducts();
 
         const fiveDaysSales = await Promise.allSettled([
-          OrderModel.aggregate([
-            {
-              $match: {
-                date: {
-                  $gte: addDays(new Date(), -1),
-                  $lte: new Date(),
-                },
-              },
-            },
-            {
-              $group: {
-                _id: null,
-                totalValue: { $sum: '$totalOrderSum' },
-              },
-            },
-          ]),
-          OrderModel.aggregate([
-            {
-              $match: {
-                date: {
-                  $gte: addDays(new Date(), -2),
-                  $lte: addDays(new Date(), -1),
-                },
-              },
-            },
-            {
-              $group: {
-                _id: null,
-                totalValue: { $sum: '$totalOrderSum' },
-              },
-            },
-          ]),
-          OrderModel.aggregate([
-            {
-              $match: {
-                date: {
-                  $gte: addDays(new Date(), -3),
-                  $lte: addDays(new Date(), -2),
-                },
-              },
-            },
-            {
-              $group: {
-                _id: null,
-                totalValue: { $sum: '$totalOrderSum' },
-              },
-            },
-          ]),
-          OrderModel.aggregate([
-            {
-              $match: {
-                date: {
-                  $gte: addDays(new Date(), -4),
-                  $lte: addDays(new Date(), -5),
-                },
-              },
-            },
-            {
-              $group: {
-                _id: null,
-                totalValue: { $sum: '$totalOrderSum' },
-              },
-            },
-          ]),
-          OrderModel.aggregate([
-            {
-              $match: {
-                date: {
-                  $gte: addDays(new Date(), -5),
-                  $lte: addDays(new Date(), -4),
-                },
-              },
-            },
-            {
-              $group: {
-                _id: null,
-                totalValue: { $sum: '$totalOrderSum' },
-              },
-            },
-          ]),
+          getTopSalesForDay(0, -1),
+          getTopSalesForDay(-1, -2),
+          getTopSalesForDay(-2, -3),
+          getTopSalesForDay(-3, -4),
+          getTopSalesForDay(-4, -5),
         ]);
-        console.log(fiveDaysSales);
+
         if (!uniqueProducts) {
           return res.status(400).json({ success: false });
         }
