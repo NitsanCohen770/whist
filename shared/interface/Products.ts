@@ -1,5 +1,5 @@
 import { Product } from './Product';
 
 export interface Products {
-  products: Product[] | undefined;
+  products: Product[] | undefined | any;
 }

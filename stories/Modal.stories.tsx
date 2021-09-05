@@ -21,7 +21,7 @@ const Template: ComponentStory<typeof EditProductModal> = args => (
 );
 
 export const NewProduct = Template.bind({});
-NewProduct.args = { title: 'New Product' };
+NewProduct.args = {};
 
 export const EditProduct = Template.bind({});
-EditProduct.args = { title: 'Edit Product', product };
+EditProduct.args = {};

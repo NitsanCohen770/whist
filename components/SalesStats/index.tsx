@@ -17,7 +17,6 @@ export const SalesStats: React.FC<SalesStatsProps> = ({
       <div className='card-body'>
         <ul className='list-group list-group-flush '>
           {productsOrSales.map((product: any, index) => {
-            console.log(product);
             return (
               <li key={product._id} className='list-group-item'>
                 {product._id || `Day ${index + 1}`} :{' '}

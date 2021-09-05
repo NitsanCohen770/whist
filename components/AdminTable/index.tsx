@@ -38,12 +38,13 @@ export const AdminTable: React.FC<AdminTableProps> = ({
         </tr>
       </thead>
       <tbody>
-        {products?.map(product => (
+        {products?.map((product, index) => (
           <tr key={product._id}>
             <td>{product.title}</td>
             <td>$ {product.price}</td>
             <td className='d-flex flex-row justify-content-evenly'>
               <Button
+                cypress={index === 0 && 'delete_button'}
                 clickHandler={() => deleteProductHandler(product._id)}
                 type='danger'
                 label='Delete'

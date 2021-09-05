@@ -8,11 +8,10 @@ before(() => {
 });
 
 describe('This is an E2E test to check if deleting a product from the list works.', () => {
+  let productTitle = '';
   it('Click on the "Delete" button on the first product in the list', () => {
-    cy.react('Button').first().click();
-    cy.react('Product')
+    cy.get('td')
       .first()
-      .find('h5')
       .invoke('text')
       .then(text => {
         productTitle = text;
@@ -20,14 +19,8 @@ describe('This is an E2E test to check if deleting a product from the list works
     cy.log(productTitle);
   });
 
-  it('Should contain the product that was added in the last test', () => {
-    cy.get('[data-cy=dropdown]').click();
-    cy.get('[data-cy=dropdown-item]')
-      .click()
-      .invoke('text')
-      .then(text => {
-        const productName = text.split(':')[0].trim();
-        assert.equal(productName, productTitle);
-      });
+  it('Should contain another text for the first item (which means it was deleted)', () => {
+    cy.get('[data-cy=delete_button]').first().click();
+    cy.get('td').first().should('not.have.value', productTitle);
   });
 });

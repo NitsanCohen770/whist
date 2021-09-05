@@ -27,8 +27,7 @@ export const EditProductModal: React.FC<ModalProps> = ({
 
   const onSubmit = (event, data) => {
     event.preventDefault();
-    const product = JSON.stringify(data);
-    callApi('products', 'PUT', product).then(({ data }) => {
+    callApi('products', 'PUT', data).then(({ data }) => {
       setProducts(data);
       toggleShowModal(false);
       setSelectedProduct(null);

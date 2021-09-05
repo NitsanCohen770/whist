@@ -1,7 +1,3 @@
-Cypress.on('uncaught:exception', (err, runnable) => {
-  return false;
-});
-
 before(() => {
   cy.visit('http://localhost:3000/');
   cy.waitForReact();
@@ -18,7 +14,6 @@ describe('This is an E2E test to check if adding a product to the cart works.', 
       .then(text => {
         productTitle = text;
       });
-    cy.log(productTitle);
   });
 
   it('Should contain the product that was added in the last test', () => {

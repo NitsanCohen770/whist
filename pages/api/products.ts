@@ -40,8 +40,6 @@ export default async function handler(
         const updatedProduct = JSON.parse(req.body);
         const id = updatedProduct._id;
         const mongoId = new ObjectId(id);
-        console.log('id', id);
-        console.log('prod', updatedProduct);
         const product = await ProductModel.findByIdAndUpdate(
           mongoId,
           updatedProduct,

@@ -20,7 +20,6 @@ export default async function handler(
   switch (method) {
     case 'POST':
       try {
-        console.log(date);
         const newOrder = await OrderModel.create({
           order,
           date,

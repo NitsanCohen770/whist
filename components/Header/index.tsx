@@ -5,6 +5,7 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 import { orderState } from '../../recoil/atmos/order';
 import { Button } from '../Button';
 import { useRouter } from 'next/dist/client/router';
+import { callApi } from '../../helpers/apiCalls';
 
 interface HeaderProps {
   showModal?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,14 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ showModal }) => {
       date: new Date(),
       totalOrderSum,
     };
-    const orderData = JSON.stringify(orderWithDate);
-    fetch('http://localhost:3000/api/sendOrder', {
-      method: 'POST',
-      body: orderData,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(() => setOrder([]));
+    callApi('sendOrder', 'POST', orderWithDate).then(() => setOrder([]));
   };
 
   const headerButtonHandler = () => {
